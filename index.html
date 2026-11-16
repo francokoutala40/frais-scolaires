@@ -3,253 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paiement des Frais Scolaires</title>
+    <title>L'œil De Franco - Caisse Pro</title>
     <style>
-        body {
-            background-color: #0b1d3a; /* Fond bleu foncé */
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f1f5f9; color: #0f172a; margin: 0; padding: 0; }
+        header {
+            background: #1e3a8a; color: white; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .container {
-            background-color: #162a45;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            max-width: 600px;
-            width: 100%;
+        .brand { font-size: 20px; font-weight: bold; }
+        .brand span { background: #f59e0b; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        .card {
+            background: white; padding: 25px; border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px;
         }
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            color: #4dadff;
+        .auth-box { max-width: 400px; margin: 30px auto; }
+        h2, h3 { margin-top: 0; color: #1e3a8a; }
+        .group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        input[type="text"], input[type="tel"], input[type="password"], input[type="number"] {
+            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px;
         }
-        .subtitle {
-            text-align: center;
-            font-size: 15px;
-            color: #b0c4de;
-            margin-bottom: 30px;
+        button {
+            width: 100%; padding: 13px; background: #1e3a8a; color: white;
+            border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
         }
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: underline;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            color: #e0e0e0;
+        .btn-green { background: #15803d; }
+        .btn-red { background: #dc2626; width: auto; padding: 8px 12px; font-size: 13px; }
+        .btn-tab { width: auto; padding: 10px 15px; background: #e2e8f0; color: #334155; margin-right: 5px; }
+        .btn-tab.active { background: #1e3a8a; color: white; }
+        .alert {
+            padding: 12px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; font-size: 14px; display: none;
         }
-        .instruction-box {
-            border: 1px solid #3a506b;
-            background-color: #1c314e;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 25px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #cfd8dc;
-        }
-        input[type="text"], input[type="date"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #3a506b;
-            border-radius: 6px;
-            background-color: #0f233c;
-            color: #ffffff;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #4dadff;
-        }
-        .phone-box {
-            border: 2px solid #ff4d4d; /* Bordure rouge */
-            background-color: #2c1a1a;
-            padding: 10px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: #ff6666;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-        .btn-submit {
-            background-color: #2ecc71; /* Bouton vert */
-            color: #ffffff;
-            border: none;
-            padding: 14px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            width: 100%;
-            border-radius: 6px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: background 0.3s;
-            margin-top: 15px;
-        }
-        .btn-submit:hover {
-            background-color: #27ae60;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 13px;
-            color: #88a0c0;
-            line-height: 1.6;
-        }
-        footer a {
-            color: #4dadff;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
+        .err { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+        .ok { background: #dcfce7; color: #166534; border: 1px solid #4ade80; }
+        .hidden { display: none !important; }
+        .link { text-align: center; margin-top: 15px; font-size: 14px; }
+        .link a { color: #1e3a8a; font-weight: bold; text-decoration: underline; cursor: pointer; }
+        .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .kpi { background: white; padding: 15px; border-radius: 8px; border-left: 5px solid #15803d; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+        .kpi-lbl { font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold; }
+        .kpi-val { font-size: 22px; font-weight: bold; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: left; font-size: 14px; }
+        th { background: #f8fafc; color: #475569; }
+        .right { text-align: right; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>BIENVENUE SUR PAIEMENT DES FRAIS SCOLAIRES</h1>
-    <div class="subtitle">Veuillez renseigner les informations sur votre enfant</div>
+<header>
+    <div class="brand">👁️ L'œil De Franco <span>PRO</span></div>
+    <div id="topBar" class="hidden">
+        <button class="btn-red" onclick="deconnexion()">Quitter</button>
+    </div>
+</header>
 
-    <!-- Envoi direct et robuste en HTML pur -->
-    <form action="https://api.web3forms.com/submit" method="POST">
-        
-        <!-- Clé d'activation unique du concepteur -->
-        <input type="hidden" name="access_key" value="e3e5fbc2-53d8-4e14-83eb-321be7fff821">
-        
-        <!-- Paramètres optionnels de personnalisation Web3Forms -->
-        <input type="hidden" name="subject" value="Nouveau Paiement Scolaire reçu - ST-PAUL">
-        <input type="hidden" name="from_name" value="Guichet Numérique ST-PAUL">
+<!-- 1. ÉCRAN INSCRIPTION / CONNEXION -->
+<div id="ecranAuth" class="container">
+    <div class="card auth-box">
+        <div id="msgAuth" class="alert"></div>
 
-        <!-- Informations Enfant -->
-        <div class="form-group">
-            <label>ANNÉE SCOLAIRE</label>
-            <input type="text" name="Année Scolaire" value="2026-2027" readonly>
+        <!-- INSCRIPTION -->
+        <div id="blocInscription">
+            <h2>Créer un compte</h2>
+            <div class="group">
+                <label>Nom de la boutique</label>
+                <input type="text" id="insBoutique" placeholder="Ex: Chez Franco">
+            </div>
+            <div class="group">
+                <label>Numéro de téléphone</label>
+                <input type="tel" id="insTel" placeholder="Ex: 066123456">
+            </div>
+            <div class="group">
+                <label>Mot de passe (6 caractères : lettres + chiffres)</label>
+                <input type="text" id="insPass" maxlength="6" placeholder="Ex: Ab1234">
+            </div>
+            <button type="button" onclick="validerInscription()">S'inscrire et ouvrir ma caisse</button>
+            <div class="link">Déjà inscrit ? <a onclick="afficherBloc('connexion')">Se connecter</a></div>
         </div>
 
-        <div class="form-group">
-            <label>ÉTABLISSEMENT</label>
-            <input type="text" name="Établissement" value="ST-PAUL" readonly>
+        <!-- CONNEXION -->
+        <div id="blocConnexion" class="hidden">
+            <h2>Connexion</h2>
+            <div class="group">
+                <label>Numéro de téléphone</label>
+                <input type="tel" id="conTel" placeholder="Votre numéro">
+            </div>
+            <div class="group">
+                <label>Mot de passe (6 caractères)</label>
+                <input type="password" id="conPass" maxlength="6" placeholder="Ex: Ab1234">
+            </div>
+            <button type="button" onclick="validerConnexion()">Ouvrir L'œil De Franco</button>
+            <div class="link">Pas de compte ? <a onclick="afficherBloc('inscription')">S'inscrire</a></div>
         </div>
-
-        <div class="form-group">
-            <label for="classe">CLASSE OU NIVEAU</label>
-            <select id="classe" name="Classe" required>
-                <option value="" disabled selected>Sélectionnez la classe</option>
-                <option value="P1">P1</option>
-                <option value="P2">P2</option>
-                <option value="P3">P3</option>
-                <option value="CP1">CP1</option>
-                <option value="CP2">CP2</option>
-                <option value="CE1">CE1</option>
-                <option value="CE2">CE2</option>
-                <option value="CM1">CM1</option>
-                <option value="CM2">CM2</option>
-                <option value="6EME">6EME</option>
-                <option value="5EME">5EME</option>
-                <option value="4EME">4EME</option>
-                <option value="3EME">3EME</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="nom_eleve">NOM OU PRÉNOM D'ÉLÈVE</label>
-            <select id="nom_eleve" name="Nom Élève" required>
-                <option value="" disabled selected>Sélectionnez l'élève</option>
-                <option value="OLIVE">OLIVE</option>
-                <option value="FRANCLY">FRANCLY</option>
-                <option value="MERVEILLE">MERVEILLE</option>
-                <option value="PACOME">PACOME</option>
-                <option value="JUSTE">JUSTE</option>
-                <option value="LORIA">LORIA</option>
-                <option value="ODEON">ODEON</option>
-                <option value="FRANCIA">FRANCIA</option>
-                <option value="LORCIA">LORCIA</option>
-                <option value="MIRIAME">MIRIAME</option>
-                <option value="MIRNA">MIRNA</option>
-                <option value="LUCIE">LUCIE</option>
-                <option value="SIMONE">SIMONE</option>
-                <option value="JUDINCIA">JUDINCIA</option>
-                <option value="GRACE">GRACE</option>
-                <option value="GLOIRE">GLOIRE</option>
-                <option value="VANESSA">VANESSA</option>
-                <option value="OUMAR">OUMAR</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="mois">MOIS DE PAIEMENT DE LA SCOLARITÉ</label>
-            <select id="mois" name="Mois payé" required>
-                <option value="" disabled selected>Sélectionnez le mois</option>
-                <option value="Octobre">Octobre</option>
-                <option value="Novembre">Novembre</option>
-                <option value="Décembre">Décembre</option>
-                <option value="Janvier">Janvier</option>
-                <option value="Février">Février</option>
-                <option value="Mars">Mars</option>
-                <option value="Avril">Avril</option>
-                <option value="Mai">Mai</option>
-                <option value="Juin">Juin</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="date_paiement">DATE DE PAIEMENT DE LA SCOLARITÉ (JJ.MM.AAAA)</label>
-            <input type="date" id="date_paiement" name="Date du paiement" required>
-        </div>
-
-        <!-- Infos Parent -->
-        <div class="section-title">INFOS PARENT</div>
-
-        <div class="form-group">
-            <label for="nom_parent">NOM ET PRÉNOM DU PARENT</label>
-            <input type="text" id="nom_parent" name="Nom du Parent" placeholder="Ex: Jean Dupont" required>
-        </div>
-
-        <div class="form-group">
-            <label for="tel_parent">NUMÉRO DE TÉLÉPHONE WHATSAPP PARENT « Pour recevoir votre reçu dans les plus brefs délais »</label>
-            <input type="text" id="tel_parent" name="Téléphone du Parent" placeholder="Ex: +242 06 XXX XX XX" required>
-        </div>
-
-        <!-- Instructions et ID Transaction -->
-        <div class="instruction-box">
-            <div class="section-title" style="margin-top: 0;">INSTRUCTION</div>
-            <div style="font-size: 14px; margin-bottom: 10px; color: #b0c4de;">Je vous communique ci-dessous le numéro pour effectuer le dépôt :</div>
-            <div class="phone-box">+242056086508</div>
-        </div>
-
-        <div class="form-group">
-            <label for="id_transaction">Une fois le SMS de confirmation reçu de l'opérateur, recopiez la référence ID du message dans la case ci-dessous :</label>
-            <input type="text" id="id_transaction" name="ID de Transaction" placeholder="ID DE TRANSACTION" required>
-        </div>
-
-        <!-- Bouton de confirmation -->
-        <button type="submit" class="btn-submit">CONFIRMER LA DEMANDE DE VOTRE REÇU DE PAIEMENT APRÈS EXAMEN</button>
-    </form>
-
-    <!-- Pied de page -->
-    <footer>
-        Pour plus d'informations, consultez le concepteur par WhatsApp au numéro : <br>
-        <strong>+242056086508</strong> <br>
-        GMAIL : <a href="mailto:francokoutala40@gmail.com">francokoutala40@gmail.com</a>
-    </footer>
+    </div>
 </div>
 
-</body>
-</html>
+<!-- 2. ÉCRAN APPLICATION : L'ŒIL DE FRANCO -->
+<div id="ecranApp" class="container hidden">
+    <div id="msgApp" class="alert"></div>
+
+    <div style="margin-bottom: 15px;">
+        <button id="btnOngletCaisse" class="btn-tab active" onclick="changerOnglet('caisse')">📊 Caisse du Jour</button>
+        <button id="btnOngletProfil" class="btn-tab" onclick="changerOnglet('profil')">👤 Mon Profil</button>
+    </div>
+
+    <!-- ONGLET CAISSE -->
+    <div id="ongletCaisse">
+        <div class="kpi-row">
+            <div class="kpi">
+                <div class="kpi-lbl">Recette du Jour</div>
+                <div class="kpi-val" id="totalJour">0 FCFA</div>
+            </div>
+            <div class="kpi" style="border-left-color: #1e3a8a;">
+                <div class="kpi-lbl">Articles Vendus</div>
+                <div class="kpi-val" id="nbArticles">0</div>
+            </div>
+            <div class="kpi" style="border-left-color: #f59e0b;">
+                <div class="kpi-lbl">Boutique</div>
+                <div class="kpi-val" id="nomBoutiqueTitre" style="font-size: 16px;">-</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>➕ Ajouter une vente</h3>
+            <div class="group">
+                <label>Nom de l'article vendu</label>
+                <input type="text" id="artNom" placeholder="Ex: Sac de riz, Huile, Savon...">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="group">
+                    <label>Prix unitaire (FCFA)</label>
+                    <input type="number" id="artPrix" placeholder="Ex: 5000">
+                </div>
+                <div class="group">
+                    <label>Quantité</label>
+                    <input type="number" id="artQte" value="1">
+                </div>
+            </div>
+            <button type="button" class="btn-green" onclick="ajouterVente()">Enregistrer la vente</button>
+        </div>
+
+        <div class="card">
+            <h3>📋 Ventes de la journée</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Heure</th>
+                            <th>Article</th>
+                            <th class="right">Prix</th>
+                            <th class="right">Qté</th>
+                            <th class="right">Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="listeVentes"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONGLET PROFIL -->
+    <div id="ongletProfil" class="card hidden">
+        <h3>Mes données personnelles</h3>
+        <div class="group">
+            <label>Téléphone (Identifiant)</label>
+            <input type="text" id="profTel" disabled style="background:#e2e8f0;">
+        </div>
+        <div class="group">
+            <label>Nom de la boutique</label>
+            <input type="text" id="profBoutique">
+        </div>
+        <div class="group">
+            <label>Ville / Marché</label>
+            <input type="text" id="profVille" placeholder="Ex: Dolisie">
+        </div>
+        <div class="group">
+            <label>Adresse</label>
+            <input type="text" id="profAdresse" placeholder="Votre quartier ou stand">
+        </div>
+        <button type="button" onclick="sauvegarderProfil()">Mettre à jour mes données</button>
+    </div>
+</div>
+
+<script>
+    // Mémoire de secours si le navigateur bloque localStorage
+    var memoireSecours = {};
+    var utilisateurActif = null;
+
+    function lireBase() {
+        try {
+            var data = localStorage.getItem('franco_v3');
+            return data ? JSON.parse(data) : memoireSecours;
+        } catch (e) {
+            return memoireSecours;
+        }
+    }
+
+    function ecrireBase(db) {
+        memoireSecours = db;
+        try {
+            localStorage.setItem('franco_v3', JSON.stringify(db));
+        } catch (e) {
+            // Continue avec memoireSecours sans bloquer
+        }
+    }
+
+    function message(id, texte, type) {
+        var box = document.getElementById(id);
+        box.textContent = texte;
+        box.className = 'alert ' + type;
+        box.style.display = 'block';
+    }
+
+    function afficherBloc(nom) {
+        document.getElementById('msgAuth').style.display = 'none';
+        document.getElementById('blocInscription').classList.toggle('hidden', nom !== 'inscription');
+        document.getElementById('blocConnexion').classList.toggle('hidden', nom !== 'connexion');
+    }
+
+    function validerInscription() {
+        var boutique = document.getElementById('insBoutique').value.trim();
+        var tel = document.getElementById('insTel').value.replace(/\s+/g, '');
