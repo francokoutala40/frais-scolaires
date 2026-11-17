@@ -3,228 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'œil De Franco - Caisse Pro</title>
+    <title>L'œil De Franco - Caisse Pro Cloud</title>
+    <script src="https://jsdelivr.net"></script>
     <style>
         * { box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #f1f5f9; color: #0f172a; margin: 0; padding: 0; }
-        header {
-            background: #1e3a8a; color: white; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
+        body { background: #f1f5f9; color: #0f172a; margin: 0; padding: 15px; }
+        .wrap { max-width: 750px; margin: 0 auto; }
+        .header {
+            background: #1e3a8a; color: white; padding: 15px 20px; border-radius: 10px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
         }
-        .brand { font-size: 20px; font-weight: bold; }
-        .brand span { background: #f59e0b; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
-        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
         .card {
-            background: white; padding: 25px; border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px;
+            background: white; padding: 20px; border-radius: 10px;
+            border: 1px solid #cbd5e1; margin-bottom: 15px;
         }
         .auth-box { max-width: 400px; margin: 30px auto; }
         h2, h3 { margin-top: 0; color: #1e3a8a; }
-        .group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        input[type="text"], input[type="tel"], input[type="password"], input[type="number"] {
-            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px;
+        input {
+            width: 100%; padding: 11px; margin-bottom: 10px; border: 1px solid #cbd5e1;
+            border-radius: 6px; font-size: 15px;
         }
         button {
-            width: 100%; padding: 13px; background: #1e3a8a; color: white;
-            border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
+            width: 100%; padding: 12px; background: #1e3a8a; color: white; border: none;
+            border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer;
         }
         .btn-green { background: #15803d; }
-        .btn-red { background: #dc2626; width: auto; padding: 8px 12px; font-size: 13px; }
-        .btn-tab { width: auto; padding: 10px 15px; background: #e2e8f0; color: #334155; margin-right: 5px; }
-        .btn-tab.active { background: #1e3a8a; color: white; }
-        .alert {
-            padding: 12px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; font-size: 14px; display: none;
-        }
-        .err { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
-        .ok { background: #dcfce7; color: #166534; border: 1px solid #4ade80; }
+        .btn-red { background: #dc2626; }
+        .btn-sm { width: auto; padding: 6px 10px; font-size: 13px; }
         .hidden { display: none !important; }
-        .link { text-align: center; margin-top: 15px; font-size: 14px; }
-        .link a { color: #1e3a8a; font-weight: bold; text-decoration: underline; cursor: pointer; }
-        .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .kpi { background: white; padding: 15px; border-radius: 8px; border-left: 5px solid #15803d; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-        .kpi-lbl { font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold; }
-        .kpi-val { font-size: 22px; font-weight: bold; margin-top: 5px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: left; font-size: 14px; }
-        th { background: #f8fafc; color: #475569; }
-        .right { text-align: right; }
+        .alert { padding: 10px; border-radius: 6px; margin-bottom: 12px; font-weight: bold; font-size: 14px; display: none; }
+        .err { background: #fee2e2; color: #991b1b; }
+        .ok { background: #dcfce7; color: #166534; }
+        .kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; text-align: center; }
+        .kpi { padding: 12px; border-radius: 8px; background: white; border: 1px solid #cbd5e1; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+        th, td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        th { background: #f8fafc; }
+        .link { text-align: center; margin-top: 12px; font-size: 14px; }
+        .link span { color: #1e3a8a; font-weight: bold; text-decoration: underline; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="brand">👁️ L'œil De Franco <span>PRO</span></div>
-    <div id="topBar" class="hidden">
-        <button class="btn-red" onclick="deconnexion()">Quitter</button>
+<div class="wrap">
+    <div class="header">
+        <div>
+            <b style="font-size: 19px;">👁️ L'œil De Franco</b><br>
+            <small id="subTitle">Gestion de Caisse Cloud</small>
+        </div>
+        <button id="btnLogout" type="button" class="btn-red btn-sm hidden">Quitter</button>
     </div>
-</header>
 
-<!-- 1. ÉCRAN INSCRIPTION / CONNEXION -->
-<div id="ecranAuth" class="container">
-    <div class="card auth-box">
-        <div id="msgAuth" class="alert"></div>
+    <div id="msgBox" class="alert"></div>
 
-        <!-- INSCRIPTION -->
-        <div id="blocInscription">
-            <h2>Créer un compte</h2>
-            <div class="group">
-                <label>Nom de la boutique</label>
-                <input type="text" id="insBoutique" placeholder="Ex: Chez Franco">
-            </div>
-            <div class="group">
-                <label>Numéro de téléphone</label>
-                <input type="tel" id="insTel" placeholder="Ex: 066123456">
-            </div>
-            <div class="group">
-                <label>Mot de passe (6 caractères : lettres + chiffres)</label>
-                <input type="text" id="insPass" maxlength="6" placeholder="Ex: Ab1234">
-            </div>
-            <button type="button" onclick="validerInscription()">S'inscrire et ouvrir ma caisse</button>
-            <div class="link">Déjà inscrit ? <a onclick="afficherBloc('connexion')">Se connecter</a></div>
+    <!-- 1. CONNEXION / INSCRIPTION COMMERÇANT -->
+    <div id="authSection" class="card auth-box">
+        <div id="boxLogin">
+            <h2>Connexion Commerçant</h2>
+            <input type="tel" id="logTel" placeholder="Numéro de téléphone">
+            <input type="password" id="logPass" maxlength="6" placeholder="Mot de passe (6 caractères)">
+            <button id="btnLogin" type="button">Ouvrir ma caisse</button>
+            <div class="link">Nouveau commerçant ? <span id="goRegister">Créer un compte</span></div>
         </div>
 
-        <!-- CONNEXION -->
-        <div id="blocConnexion" class="hidden">
-            <h2>Connexion</h2>
-            <div class="group">
-                <label>Numéro de téléphone</label>
-                <input type="tel" id="conTel" placeholder="Votre numéro">
-            </div>
-            <div class="group">
-                <label>Mot de passe (6 caractères)</label>
-                <input type="password" id="conPass" maxlength="6" placeholder="Ex: Ab1234">
-            </div>
-            <button type="button" onclick="validerConnexion()">Ouvrir L'œil De Franco</button>
-            <div class="link">Pas de compte ? <a onclick="afficherBloc('inscription')">S'inscrire</a></div>
+        <div id="boxRegister" class="hidden">
+            <h2>Inscription Boutique</h2>
+            <input type="text" id="regBoutique" placeholder="Nom de la boutique (ex: Chez Franco)">
+            <input type="tel" id="regTel" placeholder="Numéro de téléphone (chiffres uniquement)">
+            <input type="text" id="regPass" maxlength="6" placeholder="Mot de passe : 6 caractères (ex: Ab1234)">
+            <button id="btnRegister" type="button" class="btn-green">Créer mon compte en ligne</button>
+            <div class="link">Déjà inscrit ? <span id="goLogin">Se connecter</span></div>
         </div>
     </div>
-</div>
 
-<!-- 2. ÉCRAN APPLICATION : L'ŒIL DE FRANCO -->
-<div id="ecranApp" class="container hidden">
-    <div id="msgApp" class="alert"></div>
+    <!-- 2. APPLICATION L'ŒIL DE FRANCO -->
+    <div id="appSection" class="hidden">
+        <!-- CALENDRIER -->
+        <div class="card" style="background: #e0e7ff; display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;">
+            <b>📅 Date des opérations :</b>
+            <input type="date" id="dateJour" style="width: auto; margin: 0; font-weight: bold;">
+        </div>
 
-    <div style="margin-bottom: 15px;">
-        <button id="btnOngletCaisse" class="btn-tab active" onclick="changerOnglet('caisse')">📊 Caisse du Jour</button>
-        <button id="btnOngletProfil" class="btn-tab" onclick="changerOnglet('profil')">👤 Mon Profil</button>
-    </div>
-
-    <!-- ONGLET CAISSE -->
-    <div id="ongletCaisse">
-        <div class="kpi-row">
-            <div class="kpi">
-                <div class="kpi-lbl">Recette du Jour</div>
-                <div class="kpi-val" id="totalJour">0 FCFA</div>
+        <!-- COMPTEURS -->
+        <div class="kpis">
+            <div class="kpi" style="border-top: 4px solid #15803d;">
+                <small>ENTRÉES</small><br>
+                <b id="totalEntrees" style="color: #15803d; font-size: 17px;">0 FCFA</b>
             </div>
-            <div class="kpi" style="border-left-color: #1e3a8a;">
-                <div class="kpi-lbl">Articles Vendus</div>
-                <div class="kpi-val" id="nbArticles">0</div>
+            <div class="kpi" style="border-top: 4px solid #dc2626;">
+                <small>SORTIES</small><br>
+                <b id="totalSorties" style="color: #dc2626; font-size: 17px;">0 FCFA</b>
             </div>
-            <div class="kpi" style="border-left-color: #f59e0b;">
-                <div class="kpi-lbl">Boutique</div>
-                <div class="kpi-val" id="nomBoutiqueTitre" style="font-size: 16px;">-</div>
+            <div class="kpi" style="border-top: 4px solid #1e3a8a;">
+                <small>NET EN CAISSE</small><br>
+                <b id="netCaisse" style="color: #1e3a8a; font-size: 17px;">0 FCFA</b>
             </div>
         </div>
 
+        <!-- AJOUT VENTE -->
         <div class="card">
-            <h3>➕ Ajouter une vente</h3>
-            <div class="group">
-                <label>Nom de l'article vendu</label>
-                <input type="text" id="artNom" placeholder="Ex: Sac de riz, Huile, Savon...">
+            <h3 style="color: #15803d;">➕ Enregistrer une Vente (Entrée)</h3>
+            <input type="text" id="nomArticle" placeholder="Nom de l'article vendu">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <input type="number" id="prixArticle" placeholder="Prix unitaire (FCFA)">
+                <input type="number" id="qteArticle" value="1" placeholder="Quantité">
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="group">
-                    <label>Prix unitaire (FCFA)</label>
-                    <input type="number" id="artPrix" placeholder="Ex: 5000">
-                </div>
-                <div class="group">
-                    <label>Quantité</label>
-                    <input type="number" id="artQte" value="1">
-                </div>
-            </div>
-            <button type="button" class="btn-green" onclick="ajouterVente()">Enregistrer la vente</button>
+            <button id="btnVente" type="button" class="btn-green">Ajouter à la liste des vendus</button>
         </div>
 
+        <!-- LISTE VENTES -->
         <div class="card">
-            <h3>📋 Ventes de la journée</h3>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Heure</th>
-                            <th>Article</th>
-                            <th class="right">Prix</th>
-                            <th class="right">Qté</th>
-                            <th class="right">Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="listeVentes"></tbody>
-                </table>
-            </div>
+            <h3>📋 Articles vendus à cette date</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Article</th>
+                        <th>Prix</th>
+                        <th>Qté</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="corpsVentes"></tbody>
+            </table>
         </div>
-    </div>
 
-    <!-- ONGLET PROFIL -->
-    <div id="ongletProfil" class="card hidden">
-        <h3>Mes données personnelles</h3>
-        <div class="group">
-            <label>Téléphone (Identifiant)</label>
-            <input type="text" id="profTel" disabled style="background:#e2e8f0;">
+        <!-- AJOUT & LISTE SORTIES -->
+        <div class="card">
+            <h3 style="color: #dc2626;">➖ Enregistrer une Sortie (Dépense)</h3>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+                <input type="text" id="motifSortie" placeholder="Motif (Transport, Achat...)">
+                <input type="number" id="montantSortie" placeholder="Montant">
+            </div>
+            <button id="btnSortie" type="button" class="btn-red">Noter la sortie</button>
+
+            <table style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Motif</th>
+                        <th>Montant</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="corpsSorties"></tbody>
+            </table>
         </div>
-        <div class="group">
-            <label>Nom de la boutique</label>
-            <input type="text" id="profBoutique">
-        </div>
-        <div class="group">
-            <label>Ville / Marché</label>
-            <input type="text" id="profVille" placeholder="Ex: Dolisie">
-        </div>
-        <div class="group">
-            <label>Adresse</label>
-            <input type="text" id="profAdresse" placeholder="Votre quartier ou stand">
-        </div>
-        <button type="button" onclick="sauvegarderProfil()">Mettre à jour mes données</button>
     </div>
 </div>
 
 <script>
-    // Mémoire de secours si le navigateur bloque localStorage
-    var memoireSecours = {};
-    var utilisateurActif = null;
+    const SUPABASE_URL = "https://ovhebbedloqzfqzxogvv.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_clq1nwSB9bJD8gWG7zpj4g_qjrIApRI";
 
-    function lireBase() {
-        try {
-            var data = localStorage.getItem('franco_v3');
-            return data ? JSON.parse(data) : memoireSecours;
-        } catch (e) {
-            return memoireSecours;
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let commercantActif = null;
+
+    document.getElementById("dateJour").valueAsDate = new Date();
+
+    function showMsg(txt, type) {
+        const el = document.getElementById("msgBox");
+        el.innerText = txt;
+        el.className = "alert " + type;
+        el.style.display = "block";
+        setTimeout(() => { el.style.display = "none"; }, 4000);
+    }
+
+    document.getElementById("goRegister").onclick = () => {
+        document.getElementById("boxLogin").classList.add("hidden");
+        document.getElementById("boxRegister").classList.remove("hidden");
+    };
+    document.getElementById("goLogin").onclick = () => {
+        document.getElementById("boxRegister").classList.add("hidden");
+        document.getElementById("boxLogin").classList.remove("hidden");
+    };
+
+    // INSCRIPTION DANS SUPABASE
+    document.getElementById("btnRegister").onclick = async () => {
+        const boutique = document.getElementById("regBoutique").value.trim();
+        const tel = document.getElementById("regTel").value.replace(/\s+/g, "");
+        const pass = document.getElementById("regPass").value.trim();
+
+        if (!boutique || !/^[0-9]{6,15}$/.test(tel)) {
+            return showMsg("Entrez un nom de boutique et un numéro valide.", "err");
         }
-    }
-
-    function ecrireBase(db) {
-        memoireSecours = db;
-        try {
-            localStorage.setItem('franco_v3', JSON.stringify(db));
-        } catch (e) {
-            // Continue avec memoireSecours sans bloquer
+        if (pass.length !== 6 || !/[a-zA-Z]/.test(pass) || !/[0-9]/.test(pass)) {
+            return showMsg("Le mot de passe doit faire 6 caractères (lettres + chiffres).", "err");
         }
-    }
 
-    function message(id, texte, type) {
-        var box = document.getElementById(id);
-        box.textContent = texte;
-        box.className = 'alert ' + type;
-        box.style.display = 'block';
-    }
+        const { error } = await db.from("commercants").insert([
+            { telephone: tel, mot_de_passe: pass, boutique: boutique, actif: true }
+        ]);
 
-    function afficherBloc(nom) {
-        document.getElementById('msgAuth').style.display = 'none';
-        document.getElementById('blocInscription').classList.toggle('hidden', nom !== 'inscription');
-        document.getElementById('blocConnexion').classList.toggle('hidden', nom !== 'connexion');
-    }
+        if (error) {
+            return showMsg("Erreur : " + error.message, "err");
+        }
 
-    function validerInscription() {
-        var boutique = document.getElementById('insBoutique').value.trim();
-        var tel = document.getElementById('insTel').value.replace(/\s+/g, '');
+        commercantActif = { telephone: tel, boutique: boutique };
+        ouvrirApplication();
+    };
+
+    // CONNEXION VIA SUPABASE
+    document.getElementById("btnLogin").onclick = async () => {
+        const tel = document.getElementById("logTel").value.replace(/\s+/g, "");
+        const pass = document.getElementById("logPass").value.trim();
+
+        const { data, error } = await db
+            .from("commercants")
+            .select("*")
+            .eq("telephone", tel)
+            .eq("mot_de_passe", pass)
+            .single();
+
+        if (error || !data) {
+            return showMsg("Numéro ou mot de passe incorrect.", "err");
+        }
+        if (!data.actif) {
+            return showMsg("Votre abonnement est suspendu. Contactez L'œil De Franco.", "err");
+        }
+
+        commercantActif = data;
+        ouvrirApplication();
+    };
+
+    function ouvrirApplication() {
+        document.getElementById("authSection").classList.add("hidden");
