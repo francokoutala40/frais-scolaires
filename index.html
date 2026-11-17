@@ -27,19 +27,20 @@
             width: 100%; padding: 12px; background: #1e3a8a; color: white; border: none;
             border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer;
         }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-green { background: #15803d; }
         .btn-red { background: #dc2626; }
         .btn-sm { width: auto; padding: 6px 10px; font-size: 13px; }
         .hidden { display: none !important; }
-        .alert { padding: 10px; border-radius: 6px; margin-bottom: 12px; font-weight: bold; font-size: 14px; display: none; }
-        .err { background: #fee2e2; color: #991b1b; }
-        .ok { background: #dcfce7; color: #166534; }
+        .alert { padding: 12px; border-radius: 6px; margin-bottom: 12px; font-weight: bold; font-size: 14px; display: none; }
+        .err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
         .kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; text-align: center; }
         .kpi { padding: 12px; border-radius: 8px; background: white; border: 1px solid #cbd5e1; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
         th, td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
         th { background: #f8fafc; }
-        .link { text-align: center; margin-top: 12px; font-size: 14px; }
+        .link { text-align: center; margin-top: 15px; font-size: 14px; }
         .link span { color: #1e3a8a; font-weight: bold; text-decoration: underline; cursor: pointer; }
     </style>
 </head>
@@ -60,16 +61,16 @@
     <div id="authSection" class="card auth-box">
         <div id="boxLogin">
             <h2>Connexion Commerçant</h2>
-            <input type="tel" id="logTel" placeholder="Numéro de téléphone">
-            <input type="password" id="logPass" maxlength="6" placeholder="Mot de passe (6 caractères)">
+            <input type="tel" id="logTel" placeholder="Numéro de téléphone (ex: 066123456)">
+            <input type="text" id="logPass" maxlength="6" placeholder="Mot de passe (6 caractères)">
             <button id="btnLogin" type="button">Ouvrir ma caisse</button>
-            <div class="link">Nouveau commerçant ? <span id="goRegister">Créer un compte</span></div>
+            <div class="link">Nouveau commerçant ? <span id="goRegister">Créer un compte ici</span></div>
         </div>
 
         <div id="boxRegister" class="hidden">
             <h2>Inscription Boutique</h2>
             <input type="text" id="regBoutique" placeholder="Nom de la boutique (ex: Chez Franco)">
-            <input type="tel" id="regTel" placeholder="Numéro de téléphone (chiffres uniquement)">
+            <input type="tel" id="regTel" placeholder="Numéro de téléphone (ex: 066123456)">
             <input type="text" id="regPass" maxlength="6" placeholder="Mot de passe : 6 caractères (ex: Ab1234)">
             <button id="btnRegister" type="button" class="btn-green">Créer mon compte en ligne</button>
             <div class="link">Déjà inscrit ? <span id="goLogin">Se connecter</span></div>
@@ -78,13 +79,11 @@
 
     <!-- 2. APPLICATION L'ŒIL DE FRANCO -->
     <div id="appSection" class="hidden">
-        <!-- CALENDRIER -->
         <div class="card" style="background: #e0e7ff; display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;">
             <b>📅 Date des opérations :</b>
             <input type="date" id="dateJour" style="width: auto; margin: 0; font-weight: bold;">
         </div>
 
-        <!-- COMPTEURS -->
         <div class="kpis">
             <div class="kpi" style="border-top: 4px solid #15803d;">
                 <small>ENTRÉES</small><br>
@@ -100,7 +99,6 @@
             </div>
         </div>
 
-        <!-- AJOUT VENTE -->
         <div class="card">
             <h3 style="color: #15803d;">➕ Enregistrer une Vente (Entrée)</h3>
             <input type="text" id="nomArticle" placeholder="Nom de l'article vendu">
@@ -111,7 +109,6 @@
             <button id="btnVente" type="button" class="btn-green">Ajouter à la liste des vendus</button>
         </div>
 
-        <!-- LISTE VENTES -->
         <div class="card">
             <h3>📋 Articles vendus à cette date</h3>
             <table>
@@ -128,7 +125,6 @@
             </table>
         </div>
 
-        <!-- AJOUT & LISTE SORTIES -->
         <div class="card">
             <h3 style="color: #dc2626;">➖ Enregistrer une Sortie (Dépense)</h3>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
@@ -152,7 +148,7 @@
 </div>
 
 <script>
-    const SUPABASE_URL = "https://ovhebbedloqzfqzxogvv.supabase.co";
+    const SUPABASE_URL = "https://supabase.co";
     const SUPABASE_KEY = "sb_publishable_clq1nwSB9bJD8gWG7zpj4g_qjrIApRI";
 
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -165,65 +161,59 @@
         el.innerText = txt;
         el.className = "alert " + type;
         el.style.display = "block";
-        setTimeout(() => { el.style.display = "none"; }, 4000);
+    }
+
+    function nettoyerTel(val) {
+        return val.replace(/[^0-9]/g, "");
     }
 
     document.getElementById("goRegister").onclick = () => {
+        document.getElementById("msgBox").style.display = "none";
         document.getElementById("boxLogin").classList.add("hidden");
         document.getElementById("boxRegister").classList.remove("hidden");
     };
     document.getElementById("goLogin").onclick = () => {
+        document.getElementById("msgBox").style.display = "none";
         document.getElementById("boxRegister").classList.add("hidden");
         document.getElementById("boxLogin").classList.remove("hidden");
     };
 
     // INSCRIPTION DANS SUPABASE
     document.getElementById("btnRegister").onclick = async () => {
+        const btn = document.getElementById("btnRegister");
         const boutique = document.getElementById("regBoutique").value.trim();
-        const tel = document.getElementById("regTel").value.replace(/\s+/g, "");
-        const pass = document.getElementById("regPass").value.trim();
+        const tel = nettoyerTel(document.getElementById("regTel").value);
+        const pass = document.getElementById("regPass").value.trim().toLowerCase();
 
-        if (!boutique || !/^[0-9]{6,15}$/.test(tel)) {
-            return showMsg("Entrez un nom de boutique et un numéro valide.", "err");
+        if (!boutique || tel.length < 6) {
+            return showMsg("Entrez le nom de la boutique et un numéro valide.", "err");
         }
-        if (pass.length !== 6 || !/[a-zA-Z]/.test(pass) || !/[0-9]/.test(pass)) {
-            return showMsg("Le mot de passe doit faire 6 caractères (lettres + chiffres).", "err");
+        if (pass.length !== 6 || !/[a-z]/.test(pass) || !/[0-9]/.test(pass)) {
+            return showMsg("Le mot de passe doit contenir exactement 6 caractères (lettres + chiffres, ex: ab1234).", "err");
         }
+
+        btn.disabled = true;
+        btn.innerText = "Création en cours...";
 
         const { error } = await db.from("commercants").insert([
             { telephone: tel, mot_de_passe: pass, boutique: boutique, actif: true }
         ]);
 
+        btn.disabled = false;
+        btn.innerText = "Créer mon compte en ligne";
+
         if (error) {
-            return showMsg("Erreur : " + error.message, "err");
+            if (error.code === "23505") {
+                return showMsg("Ce numéro de téléphone est déjà enregistré. Cliquez sur 'Se connecter'.", "err");
+            }
+            return showMsg("Erreur Supabase : " + error.message, "err");
         }
 
+        document.getElementById("msgBox").style.display = "none";
         commercantActif = { telephone: tel, boutique: boutique };
         ouvrirApplication();
     };
 
-    // CONNEXION VIA SUPABASE
+    // CONNEXION VIA SUPABASE (CORRIGÉE)
     document.getElementById("btnLogin").onclick = async () => {
-        const tel = document.getElementById("logTel").value.replace(/\s+/g, "");
-        const pass = document.getElementById("logPass").value.trim();
-
-        const { data, error } = await db
-            .from("commercants")
-            .select("*")
-            .eq("telephone", tel)
-            .eq("mot_de_passe", pass)
-            .single();
-
-        if (error || !data) {
-            return showMsg("Numéro ou mot de passe incorrect.", "err");
-        }
-        if (!data.actif) {
-            return showMsg("Votre abonnement est suspendu. Contactez L'œil De Franco.", "err");
-        }
-
-        commercantActif = data;
-        ouvrirApplication();
-    };
-
-    function ouvrirApplication() {
-        document.getElementById("authSection").classList.add("hidden");
+        const btn = document.getElementById("btnLogin");
